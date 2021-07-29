@@ -1,0 +1,41 @@
+{
+  "name": "bdd",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "cy:run": "cypress run",
+    "cy:open": "cypress open",
+    "cy:update-snapshots": "cypress run --env updateSnapshots=true",
+    "cy:run-test-with-reporter": "cypress run --reporter cypress-image-snapshot/reporter",
+    "cy:run-test-with-no-failure": "cypress run --env failOnSnapshotDiff=false",
+    "cy:percy": "percy exec -- cypress run",
+    "delete:reports": "rm -r cypress/results/* || true",
+    "prereport": "npm run delete:reports",
+    "mochawesome:merge": "npx mochawesome-merge \"cypress/results/mochawesome/*.json\" > mochawesome.json && npx marge mochawesome.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@percy/cli": "^1.0.0-beta.59",
+    "@percy/cypress": "^3.1.0",
+    "axe-core": "^4.3.1",
+    "cypress": "^8.0.0",
+    "cypress-audit": "^1.0.0",
+    "cypress-multi-reporters": "^1.5.0",
+    "junit-merge": "^2.0.0",
+    "mocha-junit-reporter": "^2.0.0",
+    "mochawesome": "^6.2.2",
+    "mochawesome-merge": "^4.2.0",
+    "mochawesome-report-generator": "^5.2.0",
+    "prettier": "2.3.2"
+  },
+  "dependencies": {
+    "cypress-axe": "^0.12.2",
+    "cypress-cucumber-preprocessor": "^4.1.4",
+    "cypress-image-snapshot": "^4.0.1"
+  },
+  "cypress-cucumber-preprocessor": {
+    "nonGlobalStepDefinitions": true
+  },
+  "description": ""
+}

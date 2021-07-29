@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+      "baseUrl": "https://skyme.ua",
+      "target": "es5",
+      "lib": ["es5", "dom"],
+      "types": ["cypress", "@percy/cypress","cypress-axe"]
+    },
+    "include": ["**/*.ts"]
+  }
