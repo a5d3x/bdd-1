@@ -1,13 +1,15 @@
 ///<reference types="cypress" />
-const name='I'
+const name='Stepan'
 const lName='Trofimov'
 const gender='Male'
 const date='1995-03-03'
-const email='email@email.com'
+const email='real_email@email.com'
+const password='Qwerty123@'
 const invalidName='123'
 const invalidLName='123'
 const invalidDate='2030-12-03'
 const invalidEmail='emailemail.com'
+const invalidPassword='qwerty123'
 import {Given, When, Then, And} from 'cypress-cucumber-preprocessor/steps'
 import BasePage from '../BasePage/BasePage'
 
@@ -30,7 +32,7 @@ When('I fill form with valid data',()=>{
     cy.get('input[type=radio]').should('be.checked').and('have.value', gender)
     cy.get('#date').type(date)
     cy.get('#email').type(email)
-    
+    cy.get('#password').type(password)
 })
 Then('I click send',()=>{
     cy.get('#send').click()
@@ -45,36 +47,39 @@ Then('I close popup',()=>{
     cy.get('.blocker').should('not.be.visible')
 })
 When('I check table for a new record',()=>{
-    cy.get('#table').should('be.visible')
+    cy.get('#results').should('be.visible')
     cy.get('tbody > :nth-child(2)').as('newRecord')
     cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain', name)
     cy.get('tbody > :nth-child(2) > :nth-child(3)').should('contain', lName)
     cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', gender)
     cy.get('tbody > :nth-child(2) > :nth-child(5)').should('contain', date)
     cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', email)
+    cy.get('tbody > :nth-child(2) > :nth-child(8)').should('contain', password)
    
     })
 When('I check table data',()=>{
-        cy.get('#table').should('be.visible')
+        cy.get('#results').should('be.visible')
         cy.get('tbody > :nth-child(2)').as('newRecord')
         cy.get('tbody > :nth-child(2) > :nth-child(2)').should('contain', name)
         cy.get('tbody > :nth-child(2) > :nth-child(3)').should('contain', lName)
-        cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', "Prefer not to say")
+        cy.get('tbody > :nth-child(2) > :nth-child(4)').should('contain', "Skipped")
         cy.get('tbody > :nth-child(2) > :nth-child(5)').should('contain', date)
         cy.get('tbody > :nth-child(2) > :nth-child(7)').should('contain', email)
-       
+        cy.get('tbody > :nth-child(2) > :nth-child(8)').should('contain', password)
+
         })
 Then('I delete new record',()=>{
     const stub = cy.stub()
     cy.on('window:confirm', stub)
-    cy.get(':nth-child(2) > :nth-child(8) > #delete').should('be.visible').click().then(()=>{
+    cy.get(':nth-child(2) > :nth-child(9) > #delete').should('be.visible').click().then(()=>{
         expect(stub.getCall(0)).to.be.calledWith('Are you sure you want to delete this row?')
     })
-    cy.get('#table').should('not.contain', name)
+    cy.get('#results').should('not.contain', name)
     .should('not.contain', lName)
     .should('not.contain', gender)
     .should('not.contain', date)
     .should('not.contain', email)
+    .should('not.contain', password)
 })
 
 When('I fill valid name',()=>{
@@ -101,7 +106,12 @@ When('I fill invalid date',()=>{
 When('I fill invalid email',()=>{
     cy.get('#email').should('be.visible').clear().type(invalidEmail)
 })
-
+When('I fill valid password',()=>{
+    cy.get('#password').should('be.visible').clear().type(password)
+})
+When('I fill invalid password',()=>{
+    cy.get('#password').should('be.visible').clear().type(invalidPassword)
+})
 When('I click send and see {string} alert',(alert)=>{
     const stub = cy.stub()
     cy.on('window:alert', stub)

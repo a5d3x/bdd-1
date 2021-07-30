@@ -20,13 +20,15 @@ Feature: Registratios
     When I fill valid date
     And I click send and see <email_empty_alert> alert
     And I fill valid email
+    And I click send and see <password_empty_alert> alert
+    And I fill valid password
     And I click send
     And I close popup
     Then I check table data
 
     Examples:
-        | name_empty_alert | last_name_empty_alert | date_empty_alert |  email_empty_alert  |
-        | 'Name must be filled out' | 'Last name must be filled out' | 'Date must be filled out' |  'Email must be filled out'  |
+        | name_empty_alert | last_name_empty_alert | date_empty_alert |  email_empty_alert  | password_empty_alert |
+        | 'Name must be filled out' | 'Last name must be filled out' | 'Date must be filled out' |  'Email must be filled out'  | 'Password must be filled out' |
 
 
 Scenario Outline: Inpud invalid data
@@ -43,10 +45,13 @@ Scenario Outline: Inpud invalid data
     And I fill invalid email
     And I click send and see <email_alert> alert
     And I fill valid email
+    And I fill invalid password
+    And I click send and see <password_alert> alert
+    And I fill valid password
     And I click send
     And I close popup
     Then I check table data
 
     Examples:
-        | name_alert | last_name_alert | date_alert |  email_alert  |
-        | 'First Name should contain only Alphabet characters (A-Z or a-z)' | 'Last Name should contain only Alphabet characters (A-Z or a-z)' | 'Birthday cannot be more than today!' |  'Bad Email format'  |
+        | name_alert | last_name_alert | date_alert |  email_alert  | password_alert |
+        | 'First Name should contain only Alphabet characters (A-Z or a-z)' | 'Last Name should contain only Alphabet characters (A-Z or a-z)' | 'Birthday cannot be more than today!' |  'Bad Email format'  | 'A password is correct if it contains at least 1: uppercase character,lowercase character, digit, special character and Minimum 8 characters'|
