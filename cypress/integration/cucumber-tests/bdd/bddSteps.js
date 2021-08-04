@@ -6,9 +6,9 @@ const date='1995-03-03'
 const email='real_email@email.com'
 const password='Qwerty123@'
 const invalidName='123'
-const invalidLName='123'
+const invalidLName='@$```'
 const invalidDate='2030-12-03'
-const invalidEmail='emailemail.com'
+const invalidEmail='email@@email.com'
 const invalidPassword='qwerty123'
 import {Given, When, Then, And} from 'cypress-cucumber-preprocessor/steps'
 import BasePage from '../BasePage/BasePage'
@@ -112,10 +112,58 @@ When('I fill valid password',()=>{
 When('I fill invalid password',()=>{
     cy.get('#password').should('be.visible').clear().type(invalidPassword)
 })
-When('I click send and see {string} alert',(alert)=>{
+When('I click send to see {string} alert',(alert)=>{
     const stub = cy.stub()
     cy.on('window:alert', stub)
     cy.get('#send').click().then(()=>{
         expect(stub.getCall(0)).to.be.calledWith(alert)
     })
+})
+
+
+When ('I focus {string}',(field_name)=>{
+    console.log(field_name)
+    if(field_name=='first_name'){
+        cy.get('#name').focus()
+    }else if(field_name=='last_name'){
+        cy.get('#lname').focus()
+    }
+    else if(field_name=='date_filed'){
+        cy.get('#date').focus()
+    }
+    else if(field_name=='email_filed'){
+        cy.get('#email').focus()
+    }
+    else if(field_name=='password_filed'){
+        cy.get('#password').focus()
+    }
+})
+
+When ('I type the {string}',(data)=>{
+    cy.get('input:focused').clear().type(data)
+})
+Then ('I see that field is highlighted {string}',(field_color)=>{
+    if(field_color='red'){
+        cy.get('input:focused').should('have.backgroundColor',field_color)
+    }else{
+        cy.get('input:focused').should('not.have.css','input:invalid')
+    }
+    
+})
+When ('I clear the {string} field',(field_name)=>{
+    if(field_name=='first_name'){
+        cy.get('#name').clear()
+    }else if(field_name=='last_name'){
+        cy.get('#lname').clear()
+    }
+    else if(field_name=='date_filed'){
+        cy.get('#date').clear()
+    }
+    else if(field_name=='email_filed'){
+        cy.get('#email').clear()
+    }
+    else if(field_name=='password_filed'){
+        cy.get('#password').clear()
+    }
+
 })
